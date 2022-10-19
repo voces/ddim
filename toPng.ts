@@ -28,7 +28,7 @@ export const toPng = async (req: Request) => {
   if (!path || !isValidURL(path)) {
     // Converting a POST'd body
     const name = searchParams.get("name");
-    if (name) return parseBodyAndConvert(req, convertToPng);
+    if (name) return parseBodyAndConvert(req, convertToPng, "png");
 
     // No path or name; return UI (html)
     return new Response(getUploaderHtml(), {

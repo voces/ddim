@@ -17,7 +17,7 @@ const convertToDds = (blob: Uint8Array) =>
     ImageMagick.read(blob, (img: IMagickImage) =>
       img.write(
         (data: Uint8Array) => resolve(data),
-        MagickFormat.Png,
+        MagickFormat.Dds,
       ))
   );
 
@@ -28,7 +28,7 @@ export const toDds = async (req: Request) => {
   if (!path || !isValidURL(path)) {
     // Converting a POST'd body
     const name = searchParams.get("name");
-    if (name) return parseBodyAndConvert(req, convertToDds);
+    if (name) return parseBodyAndConvert(req, convertToDds, "dds");
 
     // No path or name; return UI (html)
     return new Response(getUploaderHtml(), {

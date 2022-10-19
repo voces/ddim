@@ -12,7 +12,7 @@ Deno.readTextFile("./page404.html").then((text) => page404 = text);
 
 serve((req: Request) => {
   if (new URLPattern({ pathname: "/to-png" }).test(req.url)) return toPng(req);
-  if (new URLPattern({ pathname: "/to-png" }).test(req.url)) return toDds(req);
+  if (new URLPattern({ pathname: "/to-dds" }).test(req.url)) return toDds(req);
 
   // if (new URLPattern({ pathname: "/to-dds" })) return toDds(req);
   return new Response(page404, { headers: { "Content-Type": "text/html" } });

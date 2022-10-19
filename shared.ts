@@ -1,6 +1,7 @@
 export const parseBodyAndConvert = async (
   req: Request,
   converter: (blob: Uint8Array) => Promise<Uint8Array>,
+  extension: string,
 ) => {
   const name = new URL(req.url).searchParams.get("name");
   if (!name) throw new Error("Expected name in searchParams");
@@ -13,7 +14,7 @@ export const parseBodyAndConvert = async (
       "Content-Type": "image/png",
       "ddim-new-file-name": `${
         name.includes(".") ? name.split(".").slice(0, -1).join(".") : name
-      }.png`,
+      }.${extension}`,
     },
   });
 };
