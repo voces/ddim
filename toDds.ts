@@ -21,7 +21,7 @@ const convertToDds = (blob: Uint8Array) =>
       ))
   );
 
-export const toPng = async (req: Request) => {
+export const toDds = async (req: Request) => {
   const searchParams = new URL(req.url).searchParams;
   const path = searchParams.get("path");
 
