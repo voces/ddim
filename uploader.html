@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ddim</title>
+    <style>
+        input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 8px;
+        }
+
+        input:hover {
+            background-color: #eef;
+        }
+
+        input.drag {
+            background-color: #ddf;
+        }
+
+        input.drag::after {
+            content: "Drop files to convert";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" multiple />
+    <script>
+        const input = document.querySelector("input");
+        input.addEventListener("change", async (e) => {
+            for (const file of e.currentTarget.files) {
+                fetch(`${location.href}?name=${file.name}`, {
+                    method: "POST",
+                    body: await file.arrayBuffer(),
+                })
+                    .then(async (response) => {
+                        const blob = await response.blob();
+                        const a = document.createElement("a");
+                        a.href = URL.createObjectURL(file);
+                        a.download = response.headers.get("ddim-new-file-name");
+                        document.body.append(a);
+                        a.click();
+                        a.remove();
+                    });
+            }
+        });
+        input.addEventListener("dragenter", () => input.classList.add("drag"));
+        input.addEventListener("dragleave", () => input.classList.remove("drag"));
+        input.addEventListener("drop", () => input.classList.remove("drag"));
+    </script>
+</body>
+
+</html>
